@@ -13,9 +13,6 @@ import { updatePage, updateTotalData } from "../../config/redux/action"
 const Home = () => {
     const dispatch = useDispatch()
     const [items, setItems] = useState([])
-    // const [page, setPage] = useState(1)
-    // const [totalData, setTotalData] = useState(0)
-    // const [perPage, setPerPage] = useState(4)
     const { page, perPage} = useSelector(state => state.paginationReducer)
 
 
@@ -25,7 +22,6 @@ const Home = () => {
         const result = await API.get(`/item?page=${page}perPage=${perPage}`)
         Swal.close()
         setItems(result.data.data)
-        // setTotalData(result.data.total_data)
         dispatch(updateTotalData(parseInt(result.data.total_data)))
 
     }
