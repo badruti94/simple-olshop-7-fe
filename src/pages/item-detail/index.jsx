@@ -8,6 +8,7 @@ import { SwalLoading, SwalFire } from '../../utils/swal-fire'
 const ItemDetail = () => {
 
     const [item, setItem] = useState({})
+    const [stock, setStock] = useState(0)
     const [isAdmin, setIsAdmin] = useState(false)
     const params = useParams()
     const navigate = useNavigate()
@@ -26,6 +27,15 @@ const ItemDetail = () => {
         if (role === 'admin') setIsAdmin(true)
     }, [])
 
+    const getDataStock = async () => {
+        const result = await API.get(`/item/${id}/stock`)
+        setStock(result.data.data)
+    }
+    useEffect(() => {
+        getDataStock()
+    }, [])
+
+
     const handleAddToCart = async (id) => {
         const Swal = SwalLoading()
         try {
@@ -39,6 +49,7 @@ const ItemDetail = () => {
                 Swal.close()
                 const result = await API.post('/cart', { user_id, item_id: id }, config)
                 SwalFire('success', result.data.message)
+                getDataStock()
             }
 
         } catch (error) {
@@ -87,7 +98,7 @@ const ItemDetail = () => {
                         }
                     </div>
                     <CardText className="mt-5">
-                        Stock : {item.stock} <br /> <br />
+                        Stock : {stock} <br /> <br />
                         {item.description}
                     </CardText>
                 </CardBody>

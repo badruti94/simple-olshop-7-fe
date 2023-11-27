@@ -19,7 +19,7 @@ const ItemListTable = ({ data, getData }) => {
         try {
             const deleteItem = async () => {
                 const config = await getConfig()
-                const result = await API.delete('/item/' + id, config)
+                const result = await API.delete('/house/' + id, config)
                 getData()
             }
 

@@ -1,6 +1,6 @@
 import { Button } from "reactstrap"
 import { API, getConfig } from "../../config/api"
-import { SwalLoading } from '../../utils/swal-fire'
+import { SwalFire, SwalLoading } from '../../utils/swal-fire'
 
 
 const CartItem = ({ data, getData }) => {
@@ -15,6 +15,7 @@ const CartItem = ({ data, getData }) => {
             getData()
         } catch (error) {
             Swal.close()
+            SwalFire('error', error.response.data.message)
             console.log(error);
         }
     }
