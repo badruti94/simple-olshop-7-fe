@@ -8,6 +8,7 @@ import { SwalLoading, SwalFire } from '../../utils/swal-fire'
 const ItemDetail = () => {
 
     const [item, setItem] = useState({})
+    const [noAdmin, setNoAdmin] = useState('')
     const [stock, setStock] = useState(0)
     const [isAdmin, setIsAdmin] = useState(false)
     const params = useParams()
@@ -19,7 +20,8 @@ const ItemDetail = () => {
             const Swal = SwalLoading()
             const result = await API.get('/item/' + id)
             Swal.close()
-            setItem(result.data.data)
+            setItem(result.data.data.item)
+            setNoAdmin(result.data.data.no_admin)
         }
         getData()
 
@@ -96,6 +98,12 @@ const ItemDetail = () => {
                                 Add to Cart
                             </Button>
                         }
+                        <Button
+                            onClick={() => window.open(`https://wa.me/${noAdmin}`, '_blank', 'noreferrer')}
+                            color="success"
+                            className="mt-3 mx-2">
+                            Hubungi Penjual
+                        </Button>
                     </div>
                     <CardText className="mt-5">
                         Stock : {stock} <br /> <br />
