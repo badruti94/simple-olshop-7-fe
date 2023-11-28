@@ -8,17 +8,20 @@ import { updatePage, updateTotalData } from "../../config/redux/action"
 import { useNavigate } from "react-router-dom"
 import { SwalLoading } from '../../utils/swal-fire'
 import PaginationComponent from "../../components/pagination"
+import SearchForm from "../../components/searchForm"
 
 const Item = () => {
     const dispatch = useDispatch()
     const navigate = useNavigate()
     const [items, setItems] = useState([])
+    const [search, setSearch] = useState('')
+
     const { page, perPage } = useSelector(state => state.paginationReducer)
 
 
     const getData = async () => {
         const Swal = SwalLoading()
-        const result = await API.get(`/item?page=${page}perPage=${perPage}`)
+        const result = await API.get(`/item?page=${page}&perPage=${perPage}&search=${search}`)
         Swal.close()
         setItems(result.data.data)
         dispatch(updateTotalData(parseInt(result.data.total_data)))
@@ -42,6 +45,11 @@ const Item = () => {
                 className="mx-auto"
                 style={{ width: '50rem' }}
             >
+                <SearchForm
+                    search={search}
+                    setSearch={setSearch}
+                    getData={getData}
+                />
                 <CardBody
                 >
 

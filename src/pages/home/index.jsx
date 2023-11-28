@@ -13,13 +13,14 @@ import { updatePage, updateTotalData } from "../../config/redux/action"
 const Home = () => {
     const dispatch = useDispatch()
     const [items, setItems] = useState([])
-    const { page, perPage} = useSelector(state => state.paginationReducer)
+    const [search, setSearch] = useState('')
+    const { page, perPage } = useSelector(state => state.paginationReducer)
 
 
     const getData = async () => {
         const Swal = SwalLoading()
 
-        const result = await API.get(`/item?page=${page}perPage=${perPage}`)
+        const result = await API.get(`/item?page=${page}&perPage=${perPage}&search=${search}`)
         Swal.close()
         setItems(result.data.data)
         dispatch(updateTotalData(parseInt(result.data.total_data)))
@@ -43,7 +44,11 @@ const Home = () => {
                 style={{ maxWidth: '600px' }}
             >
 
-                <SearchForm />
+                <SearchForm
+                    search={search}
+                    setSearch={setSearch}
+                    getData={getData}
+                />
             </Card>
             <Row className="row-cols-2 row-cols-md-4 g-4">
                 {items && items.map(item => <ItemGrid key={item.id} data={item} />)}

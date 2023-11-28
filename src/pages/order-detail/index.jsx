@@ -36,7 +36,7 @@ const OrderDetail = () => {
             console.log(error);
         }
     }
-    useEffect(() => {   
+    useEffect(() => {
         getData()
     }, [])
 
@@ -131,7 +131,10 @@ const OrderDetail = () => {
                     {
                         role === 'admin'
                         &&
-                        <React.Fragment>Username : {order.user.username} <br /></React.Fragment>
+                        <div style={{width: '400px', marginBottom: '10px'}}>
+                            Username : {order.user.username} <br />
+                            Alamat : {order.user.address}
+                        </div>
                     }
                     Tanggal : {order.createdAt} <br />
                     Total : Rp {order.total} <br /> <br />

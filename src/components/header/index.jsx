@@ -57,7 +57,7 @@ const Header = () => {
     return (
         <div>
             <Navbar color='light' light expand='md' container='fluid' >
-                <NavbarBrand href="/">Simple Olshop</NavbarBrand>
+                <NavbarBrand >Simple Olshop</NavbarBrand>
                 <NavbarToggler onClick={toggle} />
                 <Collapse isOpen={isOpen} navbar>
                     <Nav className="me-auto" navbar>

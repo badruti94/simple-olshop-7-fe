@@ -3,6 +3,7 @@ import { useNavigate } from "react-router-dom"
 import { Button } from "reactstrap"
 import { API, getConfig } from "../../config/api"
 import { confirmAlert } from 'react-confirm-alert';
+import { SwalFire, SwalLoading } from '../../utils/swal-fire';
 
 const ItemListTable = ({ data, getData }) => {
     const navigate = useNavigate()
@@ -16,36 +17,45 @@ const ItemListTable = ({ data, getData }) => {
         }
     }
     const handleDelete = async () => {
-        try {
-            const deleteItem = async () => {
+
+        const deleteItem = async () => {
+            const Swal = SwalLoading()
+            try {
                 const config = await getConfig()
-                const result = await API.delete('/house/' + id, config)
-                getData()
+                const result = await API.delete('/item/' + id, config)
+                Swal.close()
+                SwalFire('success', result.data.message)
+                setTimeout(() => {
+                    getData()
+                }, 500);
+            } catch (error) {
+                Swal.close()
+                SwalFire('error', error.response.data.message)
             }
 
-            const options = {
-                title: 'Delete Item',
-                message: 'Are you sure want to delete this item?',
-                buttons: [
-                    {
-                        label: 'Yes',
-                        onClick: deleteItem
-                    },
-                    {
-                        label: 'No',
-                        onClick: () => { }
-                    }
-                ],
-                closeOnEscape: true,
-                closeOnClickOutside: true,
-                keyCodeForClose: [8, 32],
-                overlayClassName: "overlay-custom-class-name"
-            };
-
-            confirmAlert(options);
-        } catch (error) {
-            console.log(error);
         }
+
+        const options = {
+            title: 'Delete Item',
+            message: 'Are you sure want to delete this item?',
+            buttons: [
+                {
+                    label: 'Yes',
+                    onClick: deleteItem
+                },
+                {
+                    label: 'No',
+                    onClick: () => { }
+                }
+            ],
+            closeOnEscape: true,
+            closeOnClickOutside: true,
+            keyCodeForClose: [8, 32],
+            overlayClassName: "overlay-custom-class-name"
+        };
+
+        confirmAlert(options);
+
     }
     const handleDetail = async () => {
         try {
