@@ -5,6 +5,8 @@ import { useEffect, useState } from "react"
 import { API, getConfig } from "../../config/api"
 import { useNavigate } from "react-router-dom"
 import {SwalLoading, SwalFire} from '../../utils/swal-fire'
+import { formatNumber } from '../../utils/format'
+
 
 
 const Cart = () => {
@@ -112,7 +114,7 @@ const Cart = () => {
                                     <Button onClick={handleClearCart} color="danger">Clear Cart</Button>
                                 </td>
                                 <td>
-                                    Rp {getTotal()}
+                                    {formatNumber(getTotal())}
                                 </td>
                             </tr>
                             <tr>

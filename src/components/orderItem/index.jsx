@@ -1,7 +1,6 @@
-import moment from "moment"
 import { useNavigate } from "react-router-dom"
 import { Button, Card, CardBody, CardSubtitle, CardText, CardTitle } from "reactstrap"
-import { formatDate } from "../../utils/format"
+import { formatDate, formatNumber } from "../../utils/format"
 
 const OrderItem = ({ data }) => {
     const { id, createdAt, total, status } = data
@@ -15,7 +14,7 @@ const OrderItem = ({ data }) => {
         if (role === 'admin') {
             return `Status: ${status}. Total : ${total}`
         } else {
-            return `Rp ${total}`
+            return formatNumber(total)
         }
     }
 

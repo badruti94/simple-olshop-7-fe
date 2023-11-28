@@ -1,10 +1,11 @@
 import { useNavigate } from "react-router-dom"
 import { Button, Card, CardBody, CardImg, CardSubtitle, CardTitle, Col } from "reactstrap"
+import { formatNumber } from '../../utils/format'
 
 const ItemGrid = ({ data }) => {
     const { id, name, price, image } = data
     const navigate = useNavigate()
-    
+
     return (
         <Col>
             <Card>
@@ -22,7 +23,7 @@ const ItemGrid = ({ data }) => {
                         className="mb-2 text-muted"
                         tag="h6"
                     >
-                        Rp {price}
+                        {formatNumber(price)}
                     </CardSubtitle>
                     <Button
                         className="mt-4"

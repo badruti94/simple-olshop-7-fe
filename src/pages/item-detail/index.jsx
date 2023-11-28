@@ -4,6 +4,8 @@ import { useNavigate, useParams } from "react-router-dom"
 import { useEffect, useState } from "react"
 import { API, getConfig } from '../../config/api'
 import { SwalLoading, SwalFire } from '../../utils/swal-fire'
+import { formatNumber } from '../../utils/format'
+
 
 const ItemDetail = () => {
 
@@ -87,7 +89,7 @@ const ItemDetail = () => {
                         className="mb-2 text-muted"
                         tag="h6"
                     >
-                        Rp {item.price}
+                        {formatNumber(item.price)}
                     </CardSubtitle>
                     <div className="button-wrapper">
                         {!isAdmin &&

@@ -4,6 +4,7 @@ import { Button } from "reactstrap"
 import { API, getConfig } from "../../config/api"
 import { confirmAlert } from 'react-confirm-alert';
 import { SwalFire, SwalLoading } from '../../utils/swal-fire';
+import { formatNumber } from '../../utils/format'
 
 const ItemListTable = ({ data, getData }) => {
     const navigate = useNavigate()
@@ -71,7 +72,7 @@ const ItemListTable = ({ data, getData }) => {
                 {name}
             </td>
             <td>
-                Rp {price}
+                {formatNumber(price)}
             </td>
             <td>
                 {stock}

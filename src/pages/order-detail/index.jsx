@@ -5,7 +5,7 @@ import React, { useEffect, useState } from "react"
 import { API, getConfig } from '../../config/api'
 import { useParams } from "react-router-dom"
 import { SwalLoading, SwalFire } from '../../utils/swal-fire'
-import {formatDate} from '../../utils/format'
+import {formatDate, formatNumber} from '../../utils/format'
 const OrderDetail = () => {
     const [imgPreview, setImgPreview] = useState(null)
     const [order, setOrder] = useState({
@@ -140,7 +140,7 @@ const OrderDetail = () => {
                         </div>
                     }
                     Tanggal : {formatDate(order.createdAt)} <br />
-                    Total : Rp {order.total} <br /> <br />
+                    Total : {formatNumber(order.total)} <br /> <br />
 
                     <Form onSubmit={handleSubmit}>
                         {
@@ -190,7 +190,7 @@ const OrderDetail = () => {
                             <tr>
                                 <td></td><td></td><td></td>
                                 <td>
-                                    Rp {order.total}
+                                    {formatNumber(order.total)}
                                 </td>
                             </tr>
                         </tbody>

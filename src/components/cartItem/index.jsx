@@ -1,6 +1,8 @@
 import { Button } from "reactstrap"
 import { API, getConfig } from "../../config/api"
 import { SwalFire, SwalLoading } from '../../utils/swal-fire'
+import { formatNumber } from '../../utils/format'
+
 
 
 const CartItem = ({ data, getData }) => {
@@ -10,7 +12,7 @@ const CartItem = ({ data, getData }) => {
         const Swal = SwalLoading()
         try {
             const config = await getConfig()
-            await API.patch(`/cart/${id}/${type}`,{}, config)
+            await API.patch(`/cart/${id}/${type}`, {}, config)
             Swal.close()
             getData()
         } catch (error) {
@@ -26,7 +28,7 @@ const CartItem = ({ data, getData }) => {
                 {item.name}
             </td>
             <td>
-                Rp {item.price}
+                {formatNumber(item.price)}
             </td>
             <td className="d-flex gap-3">
                 <Button onClick={() => handleAddMinus('minus')}>-</Button>
@@ -34,7 +36,7 @@ const CartItem = ({ data, getData }) => {
                 <Button onClick={() => handleAddMinus('plus')}>+</Button>
             </td>
             <td>
-                Rp {item.price * qty}
+                {formatNumber(item.price * qty)}
             </td>
         </tr>
     )
