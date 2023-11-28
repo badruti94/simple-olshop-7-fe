@@ -26,8 +26,8 @@ const ItemAdd = () => {
             const result = await API.get('/item/' + id)
             Swal.close()
 
-            setItem(result.data.data)
-            setImgPreview(result.data.data.image)
+            setItem(result.data.data.item)
+            setImgPreview(result.data.data.item.image)
         }
         const { id } = params
         if (id) {
