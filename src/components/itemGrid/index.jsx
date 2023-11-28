@@ -16,17 +16,17 @@ const ItemGrid = ({ data }) => {
                     width="100%"
                 />
                 <CardBody>
-                    <CardTitle tag="h5">
+                    <CardTitle tag="h5" className="fs-6" style={{height: '60px'}}>
                         {name}
                     </CardTitle>
                     <CardSubtitle
-                        className="mb-2 text-muted"
+                        className="text-muted"
                         tag="h6"
                     >
                         {formatNumber(price)}
                     </CardSubtitle>
                     <Button
-                        className="mt-4"
+                        className="mt-3"
                         onClick={() => navigate('/item/' + id)}
                     >
                         Detail

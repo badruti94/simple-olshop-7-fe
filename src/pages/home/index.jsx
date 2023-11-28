@@ -28,7 +28,9 @@ const Home = () => {
     }
 
     useEffect(() => {
-        dispatch(updatePage(1))
+        return () => {
+            dispatch(updatePage(1))
+        }
     }, [])
     useEffect(() => {
         try {
