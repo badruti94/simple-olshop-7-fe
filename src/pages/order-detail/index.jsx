@@ -70,7 +70,10 @@ const OrderDetail = () => {
                 }
             }
             Swal.close()
-            getData()
+            SwalFire('success', result.data.message)
+            setTimeout(() => {
+                getData()
+            }, 1000);
         } catch (error) {
             Swal.close()
             SwalFire('error', error.response.data.message)
@@ -131,7 +134,7 @@ const OrderDetail = () => {
                     {
                         role === 'admin'
                         &&
-                        <div style={{width: '400px', marginBottom: '10px'}}>
+                        <div style={{ width: '400px', marginBottom: '10px' }}>
                             Username : {order.user.username} <br />
                             Alamat : {order.user.address}
                         </div>
