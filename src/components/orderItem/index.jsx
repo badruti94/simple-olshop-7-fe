@@ -1,5 +1,7 @@
+import moment from "moment"
 import { useNavigate } from "react-router-dom"
 import { Button, Card, CardBody, CardSubtitle, CardText, CardTitle } from "reactstrap"
+import { formatDate } from "../../utils/format"
 
 const OrderItem = ({ data }) => {
     const { id, createdAt, total, status } = data
@@ -10,9 +12,9 @@ const OrderItem = ({ data }) => {
     const getTitle = () => role === 'admin' ? data.user.username : status
 
     const getSubtitle = () => {
-        if(role === 'admin'){
+        if (role === 'admin') {
             return `Status: ${status}. Total : ${total}`
-        }else{
+        } else {
             return `Rp ${total}`
         }
     }
@@ -32,7 +34,7 @@ const OrderItem = ({ data }) => {
                     {getSubtitle()}
                 </CardSubtitle>
                 <CardText>
-                    {createdAt}
+                    {formatDate(createdAt)}
                 </CardText>
                 <Button onClick={() => navigate('/order/' + id)} color="primary">Detail</Button>
             </CardBody>
