@@ -7,25 +7,14 @@ import { useEffect, useState } from "react"
 import { API } from '../../config/api'
 import { useDispatch, useSelector } from "react-redux"
 import { SwalLoading } from '../../utils/swal-fire'
-import { updatePage, updateTotalData } from "../../config/redux/action"
+import { updatePage, updateTotalData } from "../../config/redux/slice/paginationSlice"
+import { getData } from "../../config/redux/slice/homeSlice"
 
 
 const Home = () => {
     const dispatch = useDispatch()
-    const [items, setItems] = useState([])
-    const [search, setSearch] = useState('')
-    const { page, perPage } = useSelector(state => state.paginationReducer)
-
-
-    const getData = async () => {
-        const Swal = SwalLoading()
-
-        const result = await API.get(`/item?page=${page}&perPage=${perPage}&search=${search}`)
-        Swal.close()
-        setItems(result.data.data)
-        dispatch(updateTotalData(parseInt(result.data.total_data)))
-
-    }
+    const { items, search } = useSelector(state => state.home)
+    const { page, perPage } = useSelector(state => state.pagination)
 
     useEffect(() => {
         return () => {
@@ -34,7 +23,7 @@ const Home = () => {
     }, [])
     useEffect(() => {
         try {
-            getData()
+            dispatch(getData({ page, perPage, search }))
         } catch (error) {
             console.log(error);
         }
@@ -47,9 +36,7 @@ const Home = () => {
             >
 
                 <SearchForm
-                    search={search}
-                    setSearch={setSearch}
-                    getData={getData}
+                    pageName='home'
                 />
             </Card>
             <Row className="row-cols-2 row-cols-md-4 g-4">

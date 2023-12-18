@@ -2,10 +2,13 @@ import { Button } from "reactstrap"
 import { API, getConfig } from "../../config/api"
 import { SwalFire, SwalLoading } from '../../utils/swal-fire'
 import { formatNumber } from '../../utils/format'
+import { useDispatch } from "react-redux"
+import { getData } from "../../config/redux/slice/cartSlice"
 
 
 
-const CartItem = ({ data, getData }) => {
+const CartItem = ({ data }) => {
+    const dispatch = useDispatch()
     const { id, qty, item } = data
 
     const handleAddMinus = async (type) => {
@@ -14,7 +17,8 @@ const CartItem = ({ data, getData }) => {
             const config = await getConfig()
             await API.patch(`/cart/${id}/${type}`, {}, config)
             Swal.close()
-            getData()
+            dispatch(getData())
+
         } catch (error) {
             Swal.close()
             SwalFire('error', error.response.data.message)

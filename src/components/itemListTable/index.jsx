@@ -5,9 +5,16 @@ import { API, getConfig } from "../../config/api"
 import { confirmAlert } from 'react-confirm-alert';
 import { SwalFire, SwalLoading } from '../../utils/swal-fire';
 import { formatNumber } from '../../utils/format'
+import { useDispatch, useSelector } from 'react-redux';
+import { getData } from '../../config/redux/slice/itemSlice';
 
-const ItemListTable = ({ data, getData }) => {
+const ItemListTable = ({ data }) => {
     const navigate = useNavigate()
+    const dispatch = useDispatch()
+    const { search } = useSelector(state => state.item)
+    const { page, perPage } = useSelector(state => state.pagination)
+
+
 
     const { id, name, price, stock } = data
     const handleEdit = async () => {
@@ -27,7 +34,7 @@ const ItemListTable = ({ data, getData }) => {
                 Swal.close()
                 SwalFire('success', result.data.message)
                 setTimeout(() => {
-                    getData()
+                    dispatch(getData({ page, perPage, search }))
                 }, 500);
             } catch (error) {
                 Swal.close()

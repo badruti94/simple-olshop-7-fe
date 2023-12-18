@@ -5,11 +5,11 @@ import { useDispatch, useSelector } from 'react-redux'
 import { API, getConfig } from "../../config/api"
 import { SwalLoading } from '../../utils/swal-fire'
 import PaginationComponent from "../../components/pagination"
-import { updatePage, updateTotalData } from "../../config/redux/action"
+import { updatePage, updateTotalData } from "../../config/redux/slice/paginationSlice"
 
 const Order = () => {
     const [orders, setOrders] = useState([])
-    const { page, perPage } = useSelector(state => state.paginationReducer)
+    const { page, perPage } = useSelector(state => state.pagination)
     const dispatch = useDispatch()
 
 

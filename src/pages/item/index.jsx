@@ -4,28 +4,20 @@ import { useEffect, useState } from "react"
 import { API } from "../../config/api"
 import ItemListTable from "../../components/itemListTable"
 import { useDispatch, useSelector } from "react-redux"
-import { updatePage, updateTotalData } from "../../config/redux/action"
 import { useNavigate } from "react-router-dom"
 import { SwalLoading } from '../../utils/swal-fire'
 import PaginationComponent from "../../components/pagination"
 import SearchForm from "../../components/searchForm"
+import { updatePage, updateTotalData } from "../../config/redux/slice/paginationSlice"
+import { getData, setSearch } from "../../config/redux/slice/itemSlice"
 
 const Item = () => {
     const dispatch = useDispatch()
     const navigate = useNavigate()
-    const [items, setItems] = useState([])
-    const [search, setSearch] = useState('')
+    const { items, search } = useSelector(state => state.item)
 
-    const { page, perPage } = useSelector(state => state.paginationReducer)
+    const { page, perPage } = useSelector(state => state.pagination)
 
-
-    const getData = async () => {
-        const Swal = SwalLoading()
-        const result = await API.get(`/item?page=${page}&perPage=${perPage}&search=${search}`)
-        Swal.close()
-        setItems(result.data.data)
-        dispatch(updateTotalData(parseInt(result.data.total_data)))
-    }
 
     useEffect(() => {
         return () => {
@@ -35,7 +27,7 @@ const Item = () => {
 
     useEffect(() => {
         try {
-            getData()
+            dispatch(getData({ page, perPage, search }))
         } catch (error) {
             console.log(error);
         }
@@ -48,9 +40,7 @@ const Item = () => {
                 style={{ width: '50rem' }}
             >
                 <SearchForm
-                    search={search}
-                    setSearch={setSearch}
-                    getData={getData}
+                    pageName='item'
                 />
                 <CardBody
                 >
@@ -81,7 +71,6 @@ const Item = () => {
                                 items.map(item => <ItemListTable
                                     key={item.id}
                                     data={item}
-                                    getData={getData}
                                 />)
                             }
                         </tbody>

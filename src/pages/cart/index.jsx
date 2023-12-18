@@ -6,11 +6,14 @@ import { API, getConfig } from "../../config/api"
 import { useNavigate } from "react-router-dom"
 import {SwalLoading, SwalFire} from '../../utils/swal-fire'
 import { formatNumber } from '../../utils/format'
+import { useDispatch, useSelector } from "react-redux"
+import { getData } from "../../config/redux/slice/cartSlice"
 
 
 
 const Cart = () => {
-    const [items, setItems] = useState([])
+    const {items} = useSelector(state => state.cart)
+    const dispatch = useDispatch()
     const navigate = useNavigate()
 
     const getTotal = () => {
@@ -22,28 +25,13 @@ const Cart = () => {
         return total
     }
 
-    const getData = async () => {
-        const Swal = SwalLoading()
-        try {
-            const config = await getConfig()
-            const result = await API.get('/cart', config)
-            Swal.close()
-            setItems(result.data.data)
-        } catch (error) {
-            Swal.close()
-            SwalFire('error', error.response.data.message)
-            console.log(error);
-        }
-
-    }
-
     const handleClearCart = async (type) => {
         const Swal = SwalLoading()
         try {
             const config = await getConfig()
 
             const result = await API.delete('/cart', config)
-            getData()
+            dispatch(getData())
             Swal.close()
         } catch (error) {
             Swal.close()
@@ -68,7 +56,7 @@ const Cart = () => {
     }
 
     useEffect(() => {
-        getData()
+        dispatch(getData())
     }, [])
 
     return (
@@ -104,7 +92,6 @@ const Cart = () => {
                                     <CartItem
                                         key={item.id}
                                         data={item}
-                                        getData={getData}
                                     />)
                             }
                             <tr>

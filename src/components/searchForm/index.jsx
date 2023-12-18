@@ -1,17 +1,35 @@
-import { useDispatch } from 'react-redux'
+import { useDispatch, useSelector } from 'react-redux'
 import { Button, CardBody, Col, Form, Input, Row } from 'reactstrap'
-import { updatePage } from '../../config/redux/action'
+import { updatePage } from '../../config/redux/slice/paginationSlice'
+import { getData as getDataItem, setSearch as setSearchItem } from '../../config/redux/slice/itemSlice'
+import { getData as getDataHome, setSearch as setSearchHome} from '../../config/redux/slice/homeSlice'
 
-const SearchForm = (props) => {
-    const { search, setSearch, getData } = props
+const SearchForm = ({ pageName }) => {
+    const { search } = useSelector(state => state[pageName])
+    const { page, perPage } = useSelector(state => state.pagination)
     const dispatch = useDispatch()
+
+    let getData;
+    let setSearch;
+
+    switch (pageName) {
+        case 'home':
+            getData = getDataHome
+            setSearch = setSearchHome
+            break;
+        case 'item':
+            getData = getDataItem
+            setSearch = setSearchItem
+            break;
+        default:
+            break;
+    }
 
 
     const handleSubmit = (e) => {
         e.preventDefault()
         dispatch(updatePage(1))
-        getData()
-        
+        dispatch(getData({ page, perPage, search }))
     }
 
     return (
@@ -26,7 +44,7 @@ const SearchForm = (props) => {
                             type="text"
                             style={{ width: '400px' }}
                             value={search}
-                            onChange={(e) => setSearch(e.target.value)}
+                            onChange={(e) => dispatch(setSearch(e.target.value))}
                         />
                     </Col>
                     <Col>
